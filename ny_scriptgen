@@ -12,13 +12,12 @@ endif
 
 rm -f autogen
 
-@ line = 1
 @ size = "`printf '%d' 0x80090000`"
 
-while ( $line <= $#dir )
-  echo "local dload $dir[$line] `printf '%x' $size`" >> autogen
-  @ size = ( `wc -c < "$dir[$line]"` + $size + 1 )
-  @ line = ( $line + 1 )
+while ( $#dir )
+  echo "local dload $dir[1] `printf '%x' $size`" >> autogen
+  @ size = ( `wc -c < "$dir[1]"` + $size + 1 )
+  shift dir
 end
 
 echo -n 'Type in the path for the PS-X EXE file: '
