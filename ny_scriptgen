@@ -1,0 +1,28 @@
+#!/bin/tcsh -f
+
+echo 'You should run this script in the directory containing the game.\
+Press ENTER to continue; Ctrl + C to cancel.'
+head -1 >& /dev/null
+
+set dir = "`find . -mindepth 1 | grep -aie '\.tmd"\$"' -e '\.tim"\$"' -e '\.seq"\$"'`"
+if !( $#dir ) then
+  echo No files found.
+  exit 1
+endif
+
+rm -f autogen
+
+@ line = 1
+@ size = "`printf '%d' 0x80090000`"
+
+while ( $line <= $#dir )
+  echo "local dload $dir[$line] `printf '%x' $size`" >> autogen
+  @ size = ( `wc -c < "$dir[$line]"` + $size + 1 )
+  @ line = ( $line + 1 )
+end
+
+echo -n 'Type in the path for the PS-X EXE file: '
+echo "local load `head -1`\
+go" >> autogen
+
+echo 'Script generated successfully!'
