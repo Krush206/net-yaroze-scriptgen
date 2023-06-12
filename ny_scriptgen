@@ -2,7 +2,7 @@
 
 echo 'You should run this script in the directory containing the game.\
 Press ENTER to continue; Ctrl + C to cancel.'
-head -1 >& /dev/null
+echo "$<" >& /dev/null
 
 set dir = "`find . -mindepth 1 | grep -aie '\.tmd"\$"' -e '\.tim"\$"' -e '\.seq"\$"'`"
 if !( $#dir ) then
@@ -21,7 +21,7 @@ while ( $#dir )
 end
 
 echo -n 'Type in the path for the PS-X EXE file: '
-echo "local load `head -1`\
+echo "local load $<\
 go" >> autogen
 
 echo 'Script generated successfully!'
